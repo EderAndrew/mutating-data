@@ -1,9 +1,11 @@
 export interface IPost{
     id: number,
-    userFirstName: string,
     image: string,
-    title: string, 
-    content: string, 
-    created_at:string,
-    user_id: number 
+    title: string,
+    content: string,
+    createdAt: string,
+    userFirstName: string,
+    userLastName: string,
+    likes: number,
+    isLiked: number 
 }

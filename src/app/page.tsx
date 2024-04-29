@@ -4,8 +4,14 @@ import { getPosts } from '@/lib/posts';
 import React, { Suspense } from 'react'
 
 async function LatestPosts() {
-  const latestPosts = await getPosts(2) as unknown as IPost;
-  return <Posts posts={latestPosts} />;
+  const latestPosts = await getPosts() as IPost[];
+  return (
+    <>
+      {latestPosts.map(post => (
+        <Posts key={post.id} post={post} />
+      ))}
+    </>
+  )
 }
 
 const Home = () => {

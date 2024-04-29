@@ -2,21 +2,22 @@ import { formatDate } from '@/lib/format'
 import React from 'react'
 import LikeButton from './like-icon'
 import { IPost } from '@/interfaces/post'
+import Image from 'next/image'
 
-const Posts = ({posts}:{posts:IPost}) => {
+const Posts = ({post}:{post:IPost}) => {
   return (
     <article className="post">
         <div className="post-image">
-        <img src={posts.image} alt={posts.title} />
+        <Image src={post?.image} alt={post?.title} width={300} height={200}/>
         </div>
         <div className="post-content">
         <header>
             <div>
-            <h2>{posts.title}</h2>
+            <h2>{post?.title}</h2>
             <p>
-                Shared by {posts.userFirstName} on{' '}
-                <time dateTime={posts.created_at}>
-                {formatDate(posts.created_at)}
+                Shared by {post?.userFirstName} on{' '}
+                <time dateTime={post?.createdAt}>
+                {post?.createdAt}
                 </time>
             </p>
             </div>
@@ -24,7 +25,7 @@ const Posts = ({posts}:{posts:IPost}) => {
             <LikeButton />
             </div>
         </header>
-        <p>{posts.content}</p>
+        <p>{post?.content}</p>
         </div>
     </article>
   )

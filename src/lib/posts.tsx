@@ -64,6 +64,7 @@ export async function getPosts(maxNumber?: number) {
     ${limitClause}`);
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
+  //console.log("STMT => ", stmt.all())
   return maxNumber ? stmt.all(maxNumber) : stmt.all();
 }
 

@@ -4,11 +4,11 @@ import { getPosts } from '@/lib/posts';
 import React from 'react'
 
 const FeedPage = async() => {
-    const posts = await getPosts() as unknown as IPost;
+    const posts = await getPosts() as IPost[];
   return (
     <>
       <h1>All posts by all users</h1>
-      <Posts posts={posts} />
+      {posts && posts.map(post => <Posts key={post.id} post={post} />)}
     </>
   )
 }
