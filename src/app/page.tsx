@@ -7,9 +7,7 @@ async function LatestPosts() {
   const latestPosts = await getPosts() as IPost[];
   return (
     <>
-      {latestPosts.map(post => (
-        <Posts key={post.id} post={post} />
-      ))}
+      <Posts posts={latestPosts} />
     </>
   )
 }

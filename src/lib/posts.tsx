@@ -88,13 +88,13 @@ export async function updatePostLikeStatus(postId: string, userId: string) {
     const stmt = db.prepare(`
       INSERT INTO likes (user_id, post_id)
       VALUES (?, ?)`);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    /* await new Promise((resolve) => setTimeout(resolve, 1000)); */
     return stmt.run(userId, postId);
   } else {
     const stmt = db.prepare(`
       DELETE FROM likes
       WHERE user_id = ? AND post_id = ?`);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    /* await new Promise((resolve) => setTimeout(resolve, 1000)); */
     return stmt.run(userId, postId);
   }
 }

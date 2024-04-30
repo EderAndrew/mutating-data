@@ -1,33 +1,34 @@
-import { formatDate } from '@/lib/format'
-import React from 'react'
-import LikeButton from './like-icon'
+'use client'
+import React, { useOptimistic } from 'react'
 import { IPost } from '@/interfaces/post'
-import Image from 'next/image'
+import { togglePostLikeStatus } from '@/actions/posts'
+import Post from './post'
 
-const Posts = ({post}:{post:IPost}) => {
+const Posts = ({posts}:{posts:IPost[]}) => {
+  const [optimisticPost, updateOpmisticPost] = useOptimistic(posts, (prevPosts: any, updatedPostId: any) => {
+    const updatedPostIndex = prevPosts.findIndex((post: IPost) => post.id === updatedPostId)
+
+    if(updatedPostIndex === -1) return prevPosts
+
+    const updatedPost = { ...prevPosts[updatedPostIndex] }
+    updatedPost.likes = updatedPost.likes + (updatedPost.isLiked ? -1 : 1)
+    updatedPost.isLiked = !updatedPost.isLiked
+    const newPosts = [...prevPosts]
+    newPosts[updatedPostIndex] = updatedPost
+    return newPosts
+  })
+
+  const updatePost = async(postId: string) => {
+    updateOpmisticPost(postId)
+    await togglePostLikeStatus(postId)
+  }
+  
   return (
-    <article className="post">
-        <div className="post-image">
-        <Image src={post?.image} alt={post?.title} width={300} height={200}/>
-        </div>
-        <div className="post-content">
-        <header>
-            <div>
-            <h2>{post?.title}</h2>
-            <p>
-                Shared by {post?.userFirstName} on{' '}
-                <time dateTime={post?.createdAt}>
-                {post?.createdAt}
-                </time>
-            </p>
-            </div>
-            <div>
-            <LikeButton />
-            </div>
-        </header>
-        <p>{post?.content}</p>
-        </div>
-    </article>
+    <>
+      {posts && posts.map((post: IPost) => (
+        <Post post={post} key={post.id} action={updatePost}/>
+      ))}
+    </>
   )
 }
 
